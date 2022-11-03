@@ -1,0 +1,195 @@
+from tkinter import *
+import os
+import pyqrcode
+
+window = Tk()
+window.title("QR Code Generator")
+
+def generate():
+    if len(Subject.get())!=0 :
+        global qr,photo
+        qr = pyqrcode.create(Subject.get())
+        photo = BitmapImage(data = qr.xbm(scale=8))
+    else:
+        messagebox.showinfo("Please Enter some Subject")
+    try:
+        showcode()
+    except:
+        pass
+
+def showcode():
+    imageLabel.config(image = photo)
+    subLabel.config(text="QR of " + Subject.get())
+
+def save():
+    dir = os.getcwd() + "\\QR Codes"
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+    try:
+        if len(name.get())!=0:
+            qr.png(os.path.join(dir,name.get()+".png"),scale=8)
+        else:
+            messagebox.showinfo("Please enter a File Name")
+    except:
+        messagebox.showinfo("Generate the QR code first!")
+
+Sub = Label(window,text="Enter subject")
+Sub.grid(row =0,column =0,sticky=N+S+W+E)
+
+FName = Label(window,text="Enter FileName")
+FName.grid(row =1,column =0,sticky=N+S+W+E)
+
+Subject = StringVar()
+SubEntry = Entry(window,textvariable = Subject)
+SubEntry.grid(row =0,column =1,sticky=N+S+W+E)
+
+name = StringVar()
+nameEntry = Entry(window,textvariable = name)
+nameEntry.grid(row =1,column =1,sticky=N+S+W+E)
+
+button = Button(window,text = "Generate",width=15,command = generate)
+button.grid(row =0,column =3,sticky=N+S+W+E)
+
+imageLabel = Label(window)
+imageLabel.grid(row =2,column =1,sticky=N+S+W+E)
+
+subLabel = Label(window,text="")
+subLabel.grid(row =3,column =1,sticky=N+S+W+E)
+
+saveB = Button(window,text="Save as PNG",width=15,command = save)
+saveB.grid(row =1,column =3,sticky=N+S+W+E)
+
+#making this resposnsive
+Rows = 3
+Columns = 3
+
+for row in range(Rows+1):
+    window.grid_rowconfigure(row,weight=1)
+
+for col in range(Columns+1):
+    window.grid_columnconfigure(col,weight=1)
+
+ 
+window.mainloop()
+
+
+from tkinter import*
+import qrcode
+from PIL import Image,ImageTk
+from resizeimage import resizeimage
+class QR_Generator:
+    def __init__(self,root):
+        self.root=root
+        self.root.geometry("900x780+200+50")
+        self.root.title("QR Generator")
+        self.root.resizable(False,False)
+
+        title=Label(self.root,text="    QR Code Generator",font=("times new roman",40),bg='#053246',fg='white',anchor='w').place(x=0,y=0,relwidth=1)
+        
+        
+        ###STUDENT DETAILS###
+        ###Variable###
+        self.var_stu_objective=StringVar()
+        self.var_stu_name=StringVar()
+        self.var_stu_dob=StringVar()
+        self.var_stu_gender=StringVar()
+        self.var_stu_email=StringVar()
+        self.var_stu_contact=StringVar()
+        self.var_stu_qualification=StringVar()
+        self.var_stu_skills=StringVar()
+        self.var_stu_strength=StringVar()
+        self.var_stu_acheivements=StringVar()
+        self.var_stu_projects=StringVar()
+        self.var_stu_linkedin=StringVar()
+
+        stu_Frame=Frame(self.root,bd=2,relief=RIDGE,bg='white')
+        stu_Frame.place(x=50,y=100,width=500,height=680)
+
+        stu_title=Label(stu_Frame,text="Resume Details",font=("goudy old style",34),bg='#043246',fg='white').place(x=0,y=0,relwidth=1)
+
+        lbl_stu_objective=Label(stu_Frame,text="My Objective",font=("times new roman",15,'bold'),bg='white').place(x=50,y=80)
+        lbl_stu_name=Label(stu_Frame,text="Name",font=("times new roman",15,'bold'),bg='white').place(x=50,y=120)
+        lbl_stu_dob=Label(stu_Frame,text="Date Of Birth",font=("times new roman",15,'bold'),bg='white').place(x=50,y=160)
+        lbl_stu_gender=Label(stu_Frame,text="Gender",font=("times new roman",15,'bold'),bg='white').place(x=50,y=200)
+        lbl_stu_email=Label(stu_Frame,text="Email Address",font=("times new roman",15,'bold'),bg='white').place(x=50,y=240)
+        lbl_stu_contact=Label(stu_Frame,text="Contact Through",font=("times new roman",15,'bold'),bg='white').place(x=50,y=280)
+        lbl_stu_qualification=Label(stu_Frame,text="My Qualification",font=("times new roman",15,'bold'),bg='white').place(x=50,y=320)
+        lbl_stu_skills=Label(stu_Frame,text="Skills",font=("times new roman",15,'bold'),bg='white').place(x=50,y=360)
+        lbl_stu_strength=Label(stu_Frame,text="Strength",font=("times new roman",15,'bold'),bg='white').place(x=50,y=400)
+        lbl_stu_acheivements=Label(stu_Frame,text="Achievements",font=("times new roman",15,'bold'),bg='white').place(x=50,y=440)
+        lbl_stu_projects=Label(stu_Frame,text="Projects",font=("times new roman",15,'bold'),bg='white').place(x=50,y=480)
+        lbl_stu_linkedin=Label(stu_Frame,text="LinkedIn",font=("times new roman",15,'bold'),bg='white').place(x=50,y=520)
+
+        txt_stu_objective=Entry(stu_Frame,font=("times new roman",15),textvariable=self.var_stu_objective,bg='lightyellow').place(x=250,y=80)
+        txt_stu_name=Entry(stu_Frame,font=("times new roman",15),textvariable=self.var_stu_name,bg='lightyellow').place(x=250,y=120)
+        txt_stu_dob=Entry(stu_Frame,font=("times new roman",15),textvariable=self.var_stu_dob,bg='lightyellow').place(x=250,y=160)
+        txt_stu_gender=Entry(stu_Frame,font=("times new roman",15),textvariable=self.var_stu_gender,bg='lightyellow').place(x=250,y=200)
+        txt_stu_email=Entry(stu_Frame,font=("times new roman",15),textvariable=self.var_stu_email,bg='lightyellow').place(x=250,y=240)
+        txt_stu_contact=Entry(stu_Frame,font=("times new roman",15),textvariable=self.var_stu_contact,bg='lightyellow').place(x=250,y=280)
+        txt_stu_qualification=Entry(stu_Frame,font=("times new roman",15),textvariable=self.var_stu_qualification,bg='lightyellow').place(x=250,y=320)
+        txt_stu_skills=Entry(stu_Frame,font=("times new roman",15),textvariable=self.var_stu_skills,bg='lightyellow').place(x=250,y=360)
+        txt_stu_strength=Entry(stu_Frame,font=("times new roman",15),textvariable=self.var_stu_strength,bg='lightyellow').place(x=250,y=400)
+        txt_stu_acheivements=Entry(stu_Frame,font=("times new roman",15),textvariable=self.var_stu_acheivements,bg='lightyellow').place(x=250,y=440)
+        txt_stu_projects=Entry(stu_Frame,font=("times new roman",15),textvariable=self.var_stu_projects,bg='lightyellow').place(x=250,y=480)
+        txt_stu_linkedin=Entry(stu_Frame,font=("times new roman",15),textvariable=self.var_stu_linkedin,bg='lightyellow').place(x=250,y=520)
+
+
+        btn_generate=Button(stu_Frame,text="QR Generate",command=self.generate,font=("times new roman",18,'bold'),bg='#2196f3',fg='white').place(x=90,y=580,width=180,height=30)
+        btn_clear=Button(stu_Frame,text="Clear",command=self.clear,font=("times new roman",18,'bold'),bg='#607d8b',fg='white').place(x=350,y=580,width=120,height=30)
+        
+        self.msg="QR Generated Sucessfully!!!"
+        self.lbl_msg=Label(stu_Frame,text=self.msg,font=("times new roman",20,'bold'),bg='white',fg='green')
+        self.lbl_msg.place(x=0,y=620,relwidth=1)
+
+        ###Student QRCODE DETAILS###
+        qr_Frame=Frame(self.root,bd=2,relief=RIDGE,bg='white')
+        qr_Frame.place(x=600,y=100,width=250,height=680)
+
+        stu_title=Label(qr_Frame,text="Resume QRCODE",font=("goudy old style",20),bg='#043246',fg='white').place(x=0,y=0,relwidth=1)
+        self.qr_code=Label(qr_Frame,text="No QR \nAvailable",font=("times new roman",15),bg='#3f51b5',fg='white',bd=1,relief=RIDGE)
+        self.qr_code.place(x=35,y=100,width=180,height=180)
+     
+    def clear(self):
+        self.var_stu_objective.set('')
+        self.var_stu_name.set('')
+        self.var_stu_dob.set('')
+        self.var_stu_gender.set('')
+        self.var_stu_email.set('')
+        self.var_stu_contact.set('')
+        self.var_stu_qualification.set('')
+        self.var_stu_skills.set('')
+        self.var_stu_strength.set('')
+        self.var_stu_acheivements.set('')
+        self.var_stu_projects.set('')
+        self.var_stu_linkedin.set('')
+        self.msg=""
+        self.lbl_msg.config(text=self.msg)
+        self.qr_code.config(image='')
+        
+    
+    
+    def generate(self):
+        if self.var_stu_objective.get()=='' or self.var_stu_name.get()=='' or self.var_stu_dob.get()=='' or self.var_stu_gender.get()=='' or self.var_stu_email.get()=='' or self.var_stu_contact.get()=='' or self.var_stu_qualification.get()=='' or self.var_stu_skills.get()=='' or self.var_stu_strength.get()=='' or self.var_stu_acheivements.get()=='' or self.var_stu_projects.get()=='' or self.var_stu_linkedin.get()=='':
+            self.msg="All Fields are Required!!!"
+            self.lbl_msg.config(text=self.msg,fg='red')
+        else:
+            qr_data=(f"My Objective: {self.var_stu_objective.get()}\nName: {self.var_stu_name.get()}\nDate of Birth: {self.var_stu_dob.get()}\nGender: {self.var_stu_gender.get()}\nEmail Address: {self.var_stu_email.get()}\nContact through:{self.var_stu_contact.get()}\nMy Qualification: {self.var_stu_qualification.get()}\nSkills: {self.var_stu_skills.get()}\nStrength: {self.var_stu_strength.get()}\nAchievements: {self.var_stu_acheivements.get()}\nProjects: {self.var_stu_projects.get()}\nLinkedIn: {self.var_stu_linkedin.get()}")
+            qr_code=qrcode.make(qr_data)
+            #print(qr_code)
+            qr_code=resizeimage.resize_cover(qr_code,[180,180])
+            qr_code.save('Resume1.png')
+            ##Updating Qr image##
+            self.im=ImageTk.PhotoImage(file='Resume1.png')
+            self.qr_code.config(image=self.im)
+
+
+
+
+            ##Updating Notifcations##
+            self.msg="QR Generated Sucessfully!!!"
+            self.lbl_msg.config(text=self.msg,fg='green')
+            
+
+root=Tk()
+obj=QR_Generator(root)
+root.mainloop()
